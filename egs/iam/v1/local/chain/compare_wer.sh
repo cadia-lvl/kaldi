@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # this script is used for comparing decoding results between systems.
 # e.g. local/chain/compare_wer.sh exp/chain/cnn{1a,1b}
@@ -30,6 +30,20 @@ echo
 echo -n "# CER                        "
 for x in $*; do
   cer=$(cat $x/decode_test/scoring_kaldi/best_cer | awk '{print $2}')
+  printf "% 10s" $cer
+done
+echo
+
+echo -n "# WER val                    "
+for x in $*; do
+  wer=$(cat $x/decode_val/scoring_kaldi/best_wer | awk '{print $2}')
+  printf "% 10s" $wer
+done
+echo
+
+echo -n "# CER val                    "
+for x in $*; do
+  cer=$(cat $x/decode_val/scoring_kaldi/best_cer | awk '{print $2}')
   printf "% 10s" $cer
 done
 echo
