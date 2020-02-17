@@ -26,14 +26,14 @@ ifeq ("$(shell expr $(OPENFST_VER_NUM) \< 10600)","1")
             Supported versions: >= 1.6.0)
 endif
 
-all: check_required_programs sph2pipe openblas sclite openfst sequitur kenlm cub
+all: check_required_programs sph2pipe sclite openfst cub
 	@echo -e "\n\n"
 	@echo "Warning: IRSTLM is not installed by default anymore. If you need IRSTLM"
 	@echo "Warning: use the script extras/install_irstlm.sh"
 	@echo "All done OK."
 
 # make sure check_required_programs runs before anything else:
-sph2pipe openblas sclite openfst sctk sequitur kenlm: | check_required_programs
+sph2pipe sclite openfst sctk: | check_required_programs
 
 check_required_programs:
 	extras/check_dependencies.sh
@@ -57,8 +57,6 @@ distclean:
 	rm -rf openfst-$(OPENFST_VERSION).tar.gz
 	rm -f openfst
 	rm -rf libsndfile-1.0.25{,.tar.gz} BeamformIt-3.51{,.tgz}
-	rm -rf kenlm
-	rm -rf sequitur{,-g2p}
 	rm -f cub-$(CUB_VERSION).zip
 	rm -rf cub-$(CUB_VERSION)
 	rm -f cub
@@ -189,21 +187,21 @@ openblas:
 # beamformit-3.51.tgz:
 # 	wget -c -T 10 http://www.xavieranguera.com/beamformit/releases/BeamformIt-3.51.tgz
 
-# sequitur needed for G2P modeling
-sequitur: sequitur_compiled
-
-.PHONY: sequitur_compiled
-
-sequitur_compiled:
-	extras/install_sequitur.sh
-
-# KenLM is used for language modeling
-.PHONY: kenlm
-
-kenlm:
-	wget -O - http://kheafield.com/code/kenlm.tar.gz | tar xz \
-	&& mkdir kenlm/build \
-	&& cd kenlm/build \
-	&& cmake .. -DCMAKE_INSTALL_PREFIX=/opt/  \
-	&& make -j2 && make install
+## sequitur needed for G2P modeling
+#sequitur: sequitur_compiled
+#
+#.PHONY: sequitur_compiled
+#
+#sequitur_compiled:
+#	extras/install_sequitur.sh
+#
+## KenLM is used for language modeling
+#.PHONY: kenlm
+#
+#kenlm:
+#	wget -O - http://kheafield.com/code/kenlm.tar.gz | tar xz \
+#	&& mkdir kenlm/build \
+#	&& cd kenlm/build \
+#	&& cmake .. -DCMAKE_INSTALL_PREFIX=/opt/  \
+#	&& make -j2 && make install
 
