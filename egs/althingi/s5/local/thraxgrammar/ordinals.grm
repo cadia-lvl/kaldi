@@ -37,7 +37,8 @@ ordinals_100_to_999 = Optimize[
   hundreds1 delzero delzero delperiod |
   (hundreds2 delzero insand ordUnits <-1>) |
   (hundreds2 insand ordTeens <-2>) |
-  (hundreds2 (insspace | insand) ordinals_20_to_99 <-10>)]
+  (hundreds2 insand ordDecades delzero delperiod <-10>) |
+  (hundreds2 insspace ordDecades insand ordUnits <-13>)]
 ;
 
 ordinals = Optimize[
